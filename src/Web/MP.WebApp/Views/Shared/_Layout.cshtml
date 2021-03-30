@@ -1,0 +1,64 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - MyProj</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body class="bg-secondary">
+    <header class="">
+        <nav class="border-bottom navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <div class="">
+                    <a asp-controller="Home" asp-action="Index" class="brand-wrap">
+                        <img alt="MyProj" class="logo" src="~/images/logo.png">
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item">
+                            <a asp-controller="Home" asp-action="Index" class="nav-link">My Proj</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Sobre Victor!
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a asp-action="Presentation" asp-controller="Index" class="dropdown-item">Quem eu sou</a>
+                                <a asp-action="Presentation" asp-controller="Contact" class="dropdown-item">Contato</a>
+                            </div>
+                        </li>
+                    </ul>
+                    <form method="get" asp-controller="ExternalData" asp-action="Index" class="form-inline my-2 my-lg-0">
+                        <input class="form-control mr-sm-2" id="invoker" name="invoker" type="text" placeholder="Invocador" value="@ViewBag.Search" aria-label="Search">
+                        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+                    </form>
+
+                    <div class="col-lg-4">
+                        <div class="d-flex justify-content-end">
+                            <partial name="_LoginPartial" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted bg-dark">
+        <div class="container">
+            &copy; 2021 - MP.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
