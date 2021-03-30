@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 
 namespace MP.Authentication.Api.Controllers
 {
+    [Route("api/auth")]
     public class AuthController : MainController
     {
         private readonly SignInManager<IdentityUser> _signInManager;

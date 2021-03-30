@@ -40,16 +40,6 @@ namespace MP.WebApp.Extentions
         {
             if (statusCode == HttpStatusCode.Unauthorized)
             {
-                //if (_authService.TokenExpired())
-                //{
-                //    if (_authService.RefreshValidToken().Result)
-                //    {
-                //        context.Response.Redirect(context.Request.Path);
-                //        return;
-                //    }
-                //}
-
-                _authService.Logout();
                 context.Response.Redirect($"/login?ReturnUrl={context.Request.Path}");
                 return;
             }

@@ -1,6 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Mvc;
 using MP.WebApp.Models;
 using MP.WebApp.Services;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace MP.WebApp.Controllers
@@ -31,7 +37,7 @@ namespace MP.WebApp.Controllers
 
             if (ResponseHasErros(resposta.ResponseResult)) return View(registerUser);
 
-            await _authService.ToLogin(resposta);
+            await DoLogin(resposta);
 
             return RedirectToAction("Index", "ExternalData");
         }
@@ -57,7 +63,7 @@ namespace MP.WebApp.Controllers
 
             if (ResponseHasErros(resposta.ResponseResult)) return View(loginUser);
 
-            await _authService.ToLogin(resposta);
+            await DoLogin(resposta);
 
             if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "ExternalData");
 
@@ -65,12 +71,39 @@ namespace MP.WebApp.Controllers
         }
 
         [HttpGet]
-        [Route("sair")]
+        [Route("logout")]
         public async Task<IActionResult> Logout()
         {
-            await _authService.Logout();
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
-            return RedirectToAction("Index", "ExternalData");
+            return RedirectToAction("Index", "Catalogo");
+        }
+
+        private async Task DoLogin(UserLoginResponse response)
+        {
+            var token = GetFormatedToken(response.AccessToken);
+
+            var claims = new List<Claim>();
+            claims.Add(new Claim("JWT", response.AccessToken));
+            claims.AddRange(token.Claims);
+
+            var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+
+            var authProperties = new AuthenticationProperties
+            {
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(60),
+                IsPersistent = true
+            };
+
+            await HttpContext.SignInAsync(
+                CookieAuthenticationDefaults.AuthenticationScheme,
+                new ClaimsPrincipal(claimsIdentity),
+                authProperties);
+        }
+
+        private static JwtSecurityToken GetFormatedToken(string jwtToken)
+        {
+            return new JwtSecurityTokenHandler().ReadToken(jwtToken) as JwtSecurityToken;
         }
     }
 }

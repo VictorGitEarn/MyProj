@@ -6,13 +6,13 @@ namespace MP.WebApp.Controllers
 {
     public class MainController : Controller
     {
-        protected bool ResponseHasErros(ResponseResult resposta)
+        protected bool ResponseHasErros(ResponseResult response)
         {
-            if (resposta != null && resposta.Errors.Mensagens.Any())
+            if (response != null && response.Errors.Messages.Any())
             {
-                foreach (var mensagem in resposta.Errors.Mensagens)
+                foreach (var message in response.Errors.Messages)
                 {
-                    ModelState.AddModelError(string.Empty, mensagem);
+                    ModelState.AddModelError(string.Empty, message);
                 }
 
                 return true;

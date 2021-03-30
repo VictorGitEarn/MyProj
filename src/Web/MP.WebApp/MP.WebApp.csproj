@@ -16,7 +16,6 @@
   <ItemGroup>
     <Folder Include="Views\ExternalData\" />
     <Folder Include="Views\Presentation\" />
-    <Folder Include="Views\User\" />
   </ItemGroup>
 
   <ItemGroup>
