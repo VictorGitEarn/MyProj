@@ -3,7 +3,10 @@
 ## Sobre
 Projeto para praticar os conhecimentos de estudos.
 
+## Contextos do projeto
 ![Figura 1](/img/MyProj.png)
+
+## Diagrama de aplicações
 ![Figura 2](/img/Diagrama de aplicações.png)
 
 ## Dependências
